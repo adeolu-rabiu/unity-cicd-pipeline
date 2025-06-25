@@ -1,0 +1,23 @@
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: ayo-jenkins
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../unity-project:/var/unity-builds
+    environment:
+      - JENKINS_OPTS=--httpPort=8080
+    networks:
+      - ayo-network
+
+volumes:
+  jenkins_home:
+
+networks:
+  ayo-network:
+    driver: bridge
